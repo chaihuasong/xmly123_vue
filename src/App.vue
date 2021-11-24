@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <VisitCount msg="123活动后台"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import VisitCount from './components/VisitCount.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    VisitCount
   }
 }
 </script>
