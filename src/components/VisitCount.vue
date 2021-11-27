@@ -28,6 +28,8 @@
             </el-table-column>
             <el-table-column prop="daodu" label="导读" width="80">
             </el-table-column>
+            <el-table-column prop="zhibo" label="直播" width="80">
+            </el-table-column>
             <el-table-column prop="gwjj" label="《格物九讲》" width="110">
             </el-table-column>
             <el-table-column prop="yj" label="《易经》" width="80">
