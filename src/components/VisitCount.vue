@@ -19,14 +19,34 @@
         </el-header>
 
         <el-main>
-          <el-table :data="tableData" id="out-table">
-            <el-table-column prop="id" label="id" width="140">
+          <el-table :data="tableData" id="out-table"
+                    :header-cell-style="{'text-align':'center'}"
+                    :cell-style="{'text-align':'center'}">
+            <el-table-column prop="date" label="日期" width="100">
             </el-table-column>
-            <el-table-column prop="date" label="日期" width="120" :formatter="dateFormatter">
+            <el-table-column prop="other" label="主封面" width="80">
             </el-table-column>
-            <el-table-column prop="type" label="类别" width="150" :formatter="typeFormatter">
+            <el-table-column prop="daodu" label="导读" width="80">
             </el-table-column>
-            <el-table-column prop="count" label="访问数">
+            <el-table-column prop="gwjj" label="《格物九讲》" width="110">
+            </el-table-column>
+            <el-table-column prop="yj" label="《易经》" width="80">
+            </el-table-column>
+            <el-table-column prop="zz" label="《庄子》" width="80">
+            </el-table-column>
+            <el-table-column prop="ddj" label="《道德经》" width="90">
+            </el-table-column>
+            <el-table-column prop="xj" label="《心经》" width="80">
+            </el-table-column>
+            <el-table-column prop="jgj" label="《金刚经》" width="90">
+            </el-table-column>
+            <el-table-column prop="ly" label="《论语》" width="80">
+            </el-table-column>
+            <el-table-column prop="cxl" label="《传习录》" width="90">
+            </el-table-column>
+            <el-table-column prop="lztj" label="《六祖坛经》" width="110">
+            </el-table-column>
+            <el-table-column prop="zzwndl" label="《朱子晚年定论》" width="140">
             </el-table-column>
           </el-table>
         </el-main>
@@ -48,6 +68,7 @@ export default {
   data() {
     return {
       tableData: [],
+      originData: [],
     }
   },
   mounted() {
@@ -62,40 +83,24 @@ export default {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then((res) => {
-        this.tableData = res.data
+        this.originData = res.data
+        let map = {};
+        let pre = null;
+        this.originData.filter((item) => {
+          if (pre == null || pre === item.date) {
+            map["date"] = item.date
+            map[item.type] = item.count
+            console.log(map.date + " : " + item.type + " => " + map[item.type])
+          } else {
+            this.tableData.push(map)
+            console.log("item.date:" + item.date + "--->" + map)
+            map = {}
+            map["date"] = item.date
+            map[item.type] = item.count
+          }
+          pre = item.date
+        })
       })
-    },
-    dateFormatter(row) {
-      if(row.date == null) return null;
-      if(row.date.toString().indexOf(",") > 0) return row.date.toString().split(",")[0];
-      return row.date;
-    },
-    typeFormatter(row) {
-      if(row.type == "yj") {
-        return "《易经》"
-      } else if(row.type == "zz") {
-        return "《庄子》"
-      } else if(row.type == "ddj") {
-        return "《道德经》"
-      } else if(row.type == "xj") {
-        return "《心经》"
-      } else if(row.type == "jgj") {
-        return "《金刚经》"
-      } else if(row.type == "ly") {
-        return "《论语》"
-      } else if(row.type == "cxl") {
-        return "《传习录》"
-      } else if(row.type == "lztj") {
-        return "《六祖坛经》"
-      } else if(row.type == "zzwndl") {
-        return "《朱子晚年定论》"
-      } else if(row.type == "gwjj") {
-        return "《格物九讲》"
-      } else if(row.type == "daodu" || row.type.toString().indexOf(",") > 0) {
-        return "导读"
-      } else {
-        return "主封面"
-      }
     },
     outTab () {
       let xlsxParam = {raw: true}
