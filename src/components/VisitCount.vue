@@ -102,6 +102,7 @@ export default {
           }
           pre = item.date
         })
+        this.tableData.push(map)
       })
     },
     outTab () {
